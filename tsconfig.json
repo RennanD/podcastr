@@ -31,6 +31,12 @@
       "@hooks/*": [
         "./src/hooks/*"
       ],
+      "@utils/*": [
+        "./src/utils/*"
+      ],
+      "@services/*": [
+        "./src/services/*"
+      ],
     },
     "resolveJsonModule": true
   },
