@@ -19,8 +19,20 @@
     "moduleResolution": "Node",
     "baseUrl": ".",
     "paths": {
-      "@pages/*": ["./src/pages/*"]
-    }
+      "@pages/*": [
+        "./src/pages/*"
+      ],
+      "@styles/*": [
+        "./src/styles/*"
+      ],
+      "@components/*": [
+        "./src/components/*"
+      ],
+      "@hooks/*": [
+        "./src/hooks/*"
+      ],
+    },
+    "resolveJsonModule": true
   },
   "include": [
     "next-env.d.ts",
