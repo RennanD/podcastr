@@ -1,6 +1,12 @@
 import { GetStaticProps } from 'next';
+import Image from 'next/image';
 
-import { HomeContainer, LatestEpisodes } from '@styles/pages/home';
+import {
+  AllEpisodes,
+  EpisodeDetails,
+  HomeContainer,
+  LatestEpisodes,
+} from '@styles/pages/home';
 
 import { api } from '@services/api';
 
@@ -33,13 +39,77 @@ export default function Home({ allEpisodes, latestEpisodes }: HomeProps) {
     <HomeContainer>
       <LatestEpisodes>
         <h2>Últimos lançamentos</h2>
+
+        <ul>
+          {latestEpisodes.map(episode => (
+            <li key={episode.id}>
+              <Image
+                src={episode.thumbnail}
+                width={120}
+                height={120}
+                alt={episode.title}
+                objectFit="cover"
+              />
+
+              <EpisodeDetails>
+                <a href="/">{episode.title}</a>
+                <p>{episode.members}</p>
+
+                <span>{episode.publishedAtFormatted}</span>
+                <span>{episode.file.durationTimeString}</span>
+              </EpisodeDetails>
+              <button type="button">
+                <img src="/play-green.svg" alt="Botão de iniciar podcast" />
+              </button>
+            </li>
+          ))}
+        </ul>
       </LatestEpisodes>
 
-      <ul>
-        {latestEpisodes.map(episode => (
-          <li key={episode.id}>{episode.title}</li>
-        ))}
-      </ul>
+      <AllEpisodes>
+        <h2>Todos Episódios</h2>
+
+        <table cellSpacing={0}>
+          <thead>
+            <tr>
+              <th />
+              <th>Título</th>
+              <th>Integrantes</th>
+              <th>Data</th>
+              <th>Duração</th>
+              <th />
+            </tr>
+          </thead>
+          <tbody>
+            {allEpisodes.map(episode => (
+              <tr key={episode.id}>
+                <td style={{ width: 80 }}>
+                  <Image
+                    src={episode.thumbnail}
+                    width={120}
+                    height={120}
+                    alt={episode.title}
+                    objectFit="cover"
+                  />
+                </td>
+                <td>
+                  <a href="/">{episode.title}</a>
+                </td>
+                <td>{episode.members}</td>
+                <td>{episode.publishedAtFormatted}</td>
+                <td style={{ width: 100 }}>
+                  {episode.file.durationTimeString}
+                </td>
+                <td>
+                  <button type="button">
+                    <img src="/play-green.svg" alt="Tocar Podcast" />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </AllEpisodes>
     </HomeContainer>
   );
 }
