@@ -12,6 +12,7 @@ import { api } from '@services/api';
 
 import { convertDuration } from '@utils/convertDuration';
 import { formatDate } from '@utils/formatDate';
+import { Anchor } from '@components/Anchor';
 
 type EpisodeProps = {
   id: string;
@@ -52,7 +53,9 @@ export default function Home({ allEpisodes, latestEpisodes }: HomeProps) {
               />
 
               <EpisodeDetails>
-                <a href="/">{episode.title}</a>
+                <Anchor href={`/episodes/${episode.id}`}>
+                  {episode.title}
+                </Anchor>
                 <p>{episode.members}</p>
 
                 <span>{episode.publishedAtFormatted}</span>
@@ -93,13 +96,13 @@ export default function Home({ allEpisodes, latestEpisodes }: HomeProps) {
                   />
                 </td>
                 <td>
-                  <a href="/">{episode.title}</a>
+                  <Anchor href={`/episodes/${episode.id}`}>
+                    {episode.title}
+                  </Anchor>
                 </td>
                 <td>{episode.members}</td>
-                <td>{episode.publishedAtFormatted}</td>
-                <td style={{ width: 100 }}>
-                  {episode.file.durationTimeString}
-                </td>
+                <td style={{ width: 100 }}>{episode.publishedAtFormatted}</td>
+                <td>{episode.file.durationTimeString}</td>
                 <td>
                   <button type="button">
                     <img src="/play-green.svg" alt="Tocar Podcast" />
@@ -126,7 +129,7 @@ export const getStaticProps: GetStaticProps = async () => {
   const episodes = response.data.map(episode => ({
     ...episode,
 
-    publishedAtFormatted: formatDate(episode.published_at, 'EEEEEE, d MMMM'),
+    publishedAtFormatted: formatDate(episode.published_at, 'd MMM yy'),
     file: {
       ...episode.file,
       durationTimeString: convertDuration(episode.file.duration),

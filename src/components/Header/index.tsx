@@ -1,17 +1,16 @@
-/* eslint-disable import/no-duplicates */
-import format from 'date-fns/format';
-import ptBR from 'date-fns/locale/pt-BR';
+import { Anchor } from '@components/Anchor';
+import { formatDate } from '@utils/formatDate';
 
 import { HeaderContainer } from './styles';
 
 export function Header(): JSX.Element {
-  const currentDate = format(new Date(), 'EEEEEE, d MMMM', {
-    locale: ptBR,
-  });
+  const currentDate = formatDate(new Date(), 'EEEEEE, d MMMM');
 
   return (
     <HeaderContainer>
-      <img src="/podcastr-logo.svg" alt="Podcastr Logo" />
+      <Anchor href="/">
+        <img src="/podcastr-logo.svg" alt="Podcastr Logo" />
+      </Anchor>
 
       <p>O melhor para voce ouvir sempre.</p>
       <span>{currentDate}</span>

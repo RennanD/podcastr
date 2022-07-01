@@ -74,19 +74,6 @@ export const EpisodeDetails = styled.div`
   flex: 1;
   margin-left: 1rem;
 
-  a {
-    display: block;
-    color: var(--gray-800);
-    font-family: 'Lexend', sans-serif;
-    font-weight: 600;
-    text-decoration: none;
-    line-height: 1.4rem;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
   p {
     font-size: 0.875rem;
     margin-top: 0.5rem;
@@ -154,19 +141,6 @@ export const AllEpisodes = styled.section`
         height: 2.5rem;
 
         border-radius: 0.5rem;
-      }
-
-      a {
-        color: var(--gray-800);
-        font-family: 'Lexend', sans-serif;
-        font-weight: 600;
-        text-decoration: none;
-        line-height: 1.4rem;
-        font-size: 1rem;
-
-        &:hover {
-          text-decoration: underline;
-        }
       }
 
       button {
