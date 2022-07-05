@@ -1,5 +1,6 @@
 // import { Container } from './styles';
 
+import { usePlayer } from '@hooks/player';
 import { api } from '@services/api';
 import {
   Description,
@@ -37,6 +38,8 @@ type EpisodeDetailsProps = {
 export default function EpisodeDetails({
   episode,
 }: EpisodeDetailsProps): JSX.Element {
+  const { play } = usePlayer();
+
   return (
     <>
       <Head>
@@ -58,7 +61,7 @@ export default function EpisodeDetails({
               objectFit="cover"
             />
 
-            <button type="button">
+            <button type="button" onClick={() => play(episode)}>
               <img src="/play.svg" alt="Tocar Episódio" />
             </button>
           </ThumbnailContainer>

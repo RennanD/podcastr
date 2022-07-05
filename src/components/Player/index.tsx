@@ -28,6 +28,8 @@ export function Player(): JSX.Element {
     isPlaying,
     togglePlay,
     setIsPlaying,
+    playNext,
+    playPrevious,
   } = usePlayer();
 
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -92,7 +94,11 @@ export function Player(): JSX.Element {
           <IconButton type="button" disabled={!episode}>
             <img src="/shuffle.svg" alt="Embaralhar" />
           </IconButton>
-          <IconButton type="button" disabled={!episode}>
+          <IconButton
+            type="button"
+            disabled={!episode || currentEpisodeIndex === 0}
+            onClick={playPrevious}
+          >
             <img src="/play-previous.svg" alt="Tocar Anterior" />
           </IconButton>
 
@@ -103,7 +109,13 @@ export function Player(): JSX.Element {
             />
           </PlayButton>
 
-          <IconButton type="button" disabled={!episode}>
+          <IconButton
+            type="button"
+            disabled={
+              !episode || episodeList.length - 1 === currentEpisodeIndex
+            }
+            onClick={playNext}
+          >
             <img src="/play-next.svg" alt="Tocrar Próxima" />
           </IconButton>
           <IconButton type="button" disabled={!episode}>

@@ -38,7 +38,17 @@ type HomeProps = {
 };
 
 export default function Home({ allEpisodes, latestEpisodes }: HomeProps) {
-  const { play } = usePlayer();
+  const { playList } = usePlayer();
+
+  const episodeList = [...latestEpisodes, ...allEpisodes];
+
+  function handlePlayListEspisodes(episode: EpisodeProps) {
+    const episodeIndex = episodeList.findIndex(
+      episodeItem => episodeItem.id === episode.id,
+    );
+
+    playList(episodeList, episodeIndex);
+  }
 
   return (
     <>
@@ -70,7 +80,10 @@ export default function Home({ allEpisodes, latestEpisodes }: HomeProps) {
                   <span>{episode.publishedAtFormatted}</span>
                   <span>{episode.file.durationTimeString}</span>
                 </EpisodeDetails>
-                <button type="button" onClick={() => play(episode)}>
+                <button
+                  type="button"
+                  onClick={() => handlePlayListEspisodes(episode)}
+                >
                   <img src="/play-green.svg" alt="Botão de iniciar podcast" />
                 </button>
               </li>
@@ -113,7 +126,10 @@ export default function Home({ allEpisodes, latestEpisodes }: HomeProps) {
                   <td style={{ width: 100 }}>{episode.publishedAtFormatted}</td>
                   <td>{episode.file.durationTimeString}</td>
                   <td>
-                    <button type="button" onClick={() => play(episode)}>
+                    <button
+                      type="button"
+                      onClick={() => handlePlayListEspisodes(episode)}
+                    >
                       <img src="/play-green.svg" alt="Tocar Podcast" />
                     </button>
                   </td>
