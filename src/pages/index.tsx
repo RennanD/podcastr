@@ -13,6 +13,8 @@ import { api } from '@services/api';
 import { convertDuration } from '@utils/convertDuration';
 import { formatDate } from '@utils/formatDate';
 import { Anchor } from '@components/Anchor';
+import Head from 'next/head';
+import { usePlayer } from '@hooks/player';
 
 type EpisodeProps = {
   id: string;
@@ -36,84 +38,92 @@ type HomeProps = {
 };
 
 export default function Home({ allEpisodes, latestEpisodes }: HomeProps) {
+  const { play } = usePlayer();
+
   return (
-    <HomeContainer>
-      <LatestEpisodes>
-        <h2>Últimos lançamentos</h2>
+    <>
+      <Head>
+        <title>Podcastr</title>
+      </Head>
 
-        <ul>
-          {latestEpisodes.map(episode => (
-            <li key={episode.id}>
-              <Image
-                src={episode.thumbnail}
-                width={120}
-                height={120}
-                alt={episode.title}
-                objectFit="cover"
-              />
+      <HomeContainer>
+        <LatestEpisodes>
+          <h2>Últimos lançamentos</h2>
 
-              <EpisodeDetails>
-                <Anchor href={`/episodes/${episode.id}`}>
-                  {episode.title}
-                </Anchor>
-                <p>{episode.members}</p>
+          <ul>
+            {latestEpisodes.map(episode => (
+              <li key={episode.id}>
+                <Image
+                  src={episode.thumbnail}
+                  width={120}
+                  height={120}
+                  alt={episode.title}
+                  objectFit="cover"
+                />
 
-                <span>{episode.publishedAtFormatted}</span>
-                <span>{episode.file.durationTimeString}</span>
-              </EpisodeDetails>
-              <button type="button">
-                <img src="/play-green.svg" alt="Botão de iniciar podcast" />
-              </button>
-            </li>
-          ))}
-        </ul>
-      </LatestEpisodes>
-
-      <AllEpisodes>
-        <h2>Todos Episódios</h2>
-
-        <table cellSpacing={0}>
-          <thead>
-            <tr>
-              <th />
-              <th>Título</th>
-              <th>Integrantes</th>
-              <th>Data</th>
-              <th>Duração</th>
-              <th />
-            </tr>
-          </thead>
-          <tbody>
-            {allEpisodes.map(episode => (
-              <tr key={episode.id}>
-                <td style={{ width: 80 }}>
-                  <Image
-                    src={episode.thumbnail}
-                    width={120}
-                    height={120}
-                    alt={episode.title}
-                    objectFit="cover"
-                  />
-                </td>
-                <td>
+                <EpisodeDetails>
                   <Anchor href={`/episodes/${episode.id}`}>
                     {episode.title}
                   </Anchor>
-                </td>
-                <td>{episode.members}</td>
-                <td style={{ width: 100 }}>{episode.publishedAtFormatted}</td>
-                <td>{episode.file.durationTimeString}</td>
-                <td>
-                  <button type="button">
-                    <img src="/play-green.svg" alt="Tocar Podcast" />
-                  </button>
-                </td>
-              </tr>
+                  <p>{episode.members}</p>
+
+                  <span>{episode.publishedAtFormatted}</span>
+                  <span>{episode.file.durationTimeString}</span>
+                </EpisodeDetails>
+                <button type="button" onClick={() => play(episode)}>
+                  <img src="/play-green.svg" alt="Botão de iniciar podcast" />
+                </button>
+              </li>
             ))}
-          </tbody>
-        </table>
-      </AllEpisodes>
-    </HomeContainer>
+          </ul>
+        </LatestEpisodes>
+
+        <AllEpisodes>
+          <h2>Todos Episódios</h2>
+
+          <table cellSpacing={0}>
+            <thead>
+              <tr>
+                <th />
+                <th>Título</th>
+                <th>Integrantes</th>
+                <th>Data</th>
+                <th>Duração</th>
+                <th />
+              </tr>
+            </thead>
+            <tbody>
+              {allEpisodes.map(episode => (
+                <tr key={episode.id}>
+                  <td style={{ width: 80 }}>
+                    <Image
+                      src={episode.thumbnail}
+                      width={120}
+                      height={120}
+                      alt={episode.title}
+                      objectFit="cover"
+                    />
+                  </td>
+                  <td>
+                    <Anchor href={`/episodes/${episode.id}`}>
+                      {episode.title}
+                    </Anchor>
+                  </td>
+                  <td>{episode.members}</td>
+                  <td style={{ width: 100 }}>{episode.publishedAtFormatted}</td>
+                  <td>{episode.file.durationTimeString}</td>
+                  <td>
+                    <button type="button" onClick={() => play(episode)}>
+                      <img src="/play-green.svg" alt="Tocar Podcast" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </AllEpisodes>
+      </HomeContainer>
+    </>
   );
 }
 

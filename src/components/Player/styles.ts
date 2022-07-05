@@ -43,6 +43,29 @@ export const EmptyPlayer = styled.div`
   justify-content: center;
 `;
 
+export const CurrentEpisode = styled.div`
+  text-align: center;
+
+  img {
+    border-radius: 1.5rem;
+  }
+
+  strong {
+    display: block;
+    margin-top: 2rem;
+    font: 600 1.25rem 'Lexend', sans-serif;
+
+    line-height: 1.75rem;
+  }
+
+  span {
+    display: block;
+    margin-top: 1rem;
+    opacity: 0.6;
+    line-height: 1.5rem;
+  }
+`;
+
 type PlayerFooterProps = {
   isEmpty?: boolean;
 };
@@ -94,4 +117,17 @@ export const PlayButton = styled.button`
   border-radius: 1rem;
   border: 0;
   background: var(--purple-400);
+
+  transition: filter 0.2s ease;
+
+  &:hover {
+    filter: brightness(0.97);
+  }
+
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      opacity: 0.5;
+      cursor: default;
+    `}
 `;

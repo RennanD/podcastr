@@ -10,6 +10,7 @@ import {
 import { convertDuration } from '@utils/convertDuration';
 import { formatDate } from '@utils/formatDate';
 import { GetStaticPaths, GetStaticProps } from 'next';
+import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -37,39 +38,44 @@ export default function EpisodeDetails({
   episode,
 }: EpisodeDetailsProps): JSX.Element {
   return (
-    <EpisodeWrapper>
-      <EpisodeContainer>
-        <ThumbnailContainer>
-          <Link href="/">
+    <>
+      <Head>
+        <title>{episode.title} | Podcastr</title>
+      </Head>
+      <EpisodeWrapper>
+        <EpisodeContainer>
+          <ThumbnailContainer>
+            <Link href="/">
+              <button type="button">
+                <img src="/arrow-left.svg" alt="Voltar" />
+              </button>
+            </Link>
+
+            <Image
+              width={700}
+              height={300}
+              src={episode.thumbnail}
+              objectFit="cover"
+            />
+
             <button type="button">
-              <img src="/arrow-left.svg" alt="Voltar" />
+              <img src="/play.svg" alt="Tocar Episódio" />
             </button>
-          </Link>
+          </ThumbnailContainer>
 
-          <Image
-            width={700}
-            height={300}
-            src={episode.thumbnail}
-            objectFit="cover"
+          <header>
+            <h1>{episode.title}</h1>
+            <span>{episode.members}</span>
+            <span>{episode.publishedAtFormatted}</span>
+            <span>{episode.file.durationTimeString}</span>
+          </header>
+
+          <Description
+            dangerouslySetInnerHTML={{ __html: episode.description }}
           />
-
-          <button type="button">
-            <img src="/play.svg" alt="Tocar Episódio" />
-          </button>
-        </ThumbnailContainer>
-
-        <header>
-          <h1>{episode.title}</h1>
-          <span>{episode.members}</span>
-          <span>{episode.publishedAtFormatted}</span>
-          <span>{episode.file.durationTimeString}</span>
-        </header>
-
-        <Description
-          dangerouslySetInnerHTML={{ __html: episode.description }}
-        />
-      </EpisodeContainer>
-    </EpisodeWrapper>
+        </EpisodeContainer>
+      </EpisodeWrapper>
+    </>
   );
 }
 
