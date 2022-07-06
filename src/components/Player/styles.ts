@@ -1,3 +1,4 @@
+import { IconButton } from '@components/IconButton';
 import styled, { css } from 'styled-components';
 
 export const PlayerContainer = styled.div`
@@ -129,5 +130,21 @@ export const PlayButton = styled.button`
     css`
       opacity: 0.5;
       cursor: default;
+    `}
+`;
+
+type ToggleButtonProps = {
+  isToggle: boolean;
+};
+export const ToggleButton = styled(IconButton)<ToggleButtonProps>`
+  ${({ isToggle }) =>
+    isToggle &&
+    css`
+      filter: invert(0.35) sepia(1) saturate(3) hue-rotate(100deg);
+
+      &:hover {
+        filter: brightness(0.6) invert(0.35) sepia(1) saturate(3)
+          hue-rotate(100deg);
+      }
     `}
 `;

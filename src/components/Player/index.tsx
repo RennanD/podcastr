@@ -19,6 +19,7 @@ import {
   PlayButton,
   PlayerFooter,
   Slider,
+  ToggleButton,
 } from './styles';
 
 export function Player(): JSX.Element {
@@ -31,6 +32,9 @@ export function Player(): JSX.Element {
     playNext,
     playPrevious,
     isLooping,
+    toggleLoop,
+    isShuffling,
+    toggleShuffle,
   } = usePlayer();
 
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -92,9 +96,15 @@ export function Player(): JSX.Element {
         </Progress>
 
         <ButtonContainer>
-          <IconButton type="button" disabled={!episode}>
+          <ToggleButton
+            isToggle={isShuffling}
+            type="button"
+            onClick={toggleShuffle}
+            disabled={!episode || episodeList.length === 1}
+          >
             <img src="/shuffle.svg" alt="Embaralhar" />
-          </IconButton>
+          </ToggleButton>
+
           <IconButton
             type="button"
             disabled={!episode || currentEpisodeIndex === 0}
@@ -119,9 +129,14 @@ export function Player(): JSX.Element {
           >
             <img src="/play-next.svg" alt="Tocrar Próxima" />
           </IconButton>
-          <IconButton type="button" disabled={!episode}>
+          <ToggleButton
+            isToggle={isLooping}
+            type="button"
+            disabled={!episode}
+            onClick={toggleLoop}
+          >
             <img src="/repeat.svg" alt="Repetir" />
-          </IconButton>
+          </ToggleButton>
         </ButtonContainer>
 
         {episode && (
