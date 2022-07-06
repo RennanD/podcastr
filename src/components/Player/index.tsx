@@ -8,7 +8,8 @@ import 'rc-slider/assets/index.css';
 import { IconButton } from '@components/IconButton';
 import { usePlayer } from '@hooks/player';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { convertDuration } from '@utils/convertDuration';
 import {
   PlayerContainer,
   EmptyPlayer,
@@ -39,7 +40,22 @@ export function Player(): JSX.Element {
 
   const audioRef = useRef<HTMLAudioElement>(null);
 
+  const [progress, setProgress] = useState(0);
+
   const episode = episodeList[currentEpisodeIndex];
+
+  function handleSetupProgressListener() {
+    audioRef.current.currentTime = 0;
+
+    audioRef.current.addEventListener('timeupdate', () => {
+      setProgress(Math.floor(audioRef.current.currentTime));
+    });
+  }
+
+  function handleSeek(amount: number) {
+    audioRef.current.currentTime = amount;
+    setProgress(amount);
+  }
 
   useEffect(() => {
     if (isPlaying) {
@@ -78,11 +94,14 @@ export function Player(): JSX.Element {
 
       <PlayerFooter isEmpty={!episode}>
         <Progress>
-          <span>00:00</span>
+          <span>{convertDuration(progress)}</span>
 
           <Slider>
             {episode ? (
               <RCSlider
+                max={episode.file.duration}
+                value={progress}
+                onChange={(amount: number) => handleSeek(amount)}
                 trackStyle={{ backgroundColor: '#04d361' }}
                 railStyle={{ backgroundColor: '#9f75ff' }}
                 handleStyle={{ borderColor: '#04d361', borderWidth: 4 }}
@@ -92,7 +111,7 @@ export function Player(): JSX.Element {
             )}
           </Slider>
 
-          <span>00:00</span>
+          <span>{convertDuration(episode?.file.duration ?? 0)}</span>
         </Progress>
 
         <ButtonContainer>
@@ -123,7 +142,8 @@ export function Player(): JSX.Element {
           <IconButton
             type="button"
             disabled={
-              !episode || episodeList.length - 1 === currentEpisodeIndex
+              !episode ||
+              (episodeList.length - 1 === currentEpisodeIndex && !isShuffling)
             }
             onClick={playNext}
           >
@@ -145,8 +165,10 @@ export function Player(): JSX.Element {
             src={episode.file.url}
             autoPlay
             loop={isLooping}
+            onEnded={playNext}
             onPlay={() => setIsPlaying(true)}
             onPause={() => setIsPlaying(false)}
+            onLoadedMetadata={handleSetupProgressListener}
           />
         )}
       </PlayerFooter>
