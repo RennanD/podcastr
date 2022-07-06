@@ -30,6 +30,7 @@ export function Player(): JSX.Element {
     setIsPlaying,
     playNext,
     playPrevious,
+    isLooping,
   } = usePlayer();
 
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -128,6 +129,7 @@ export function Player(): JSX.Element {
             ref={audioRef}
             src={episode.file.url}
             autoPlay
+            loop={isLooping}
             onPlay={() => setIsPlaying(true)}
             onPause={() => setIsPlaying(false)}
           />
