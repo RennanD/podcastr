@@ -15,3 +15,60 @@
 
   <img src="https://img.shields.io/github/stars/rennand/podcastr?label=stars&message=MIT&color=ED2590&labelColor=5292C1 " alt="Stars">
 </p>
+
+
+## 📝 Descrição
+
+Esta é uma aplicação que funciona como um player de PodCasts.
+Nela foram aplicados alguns conceitos bem fortes do NextJs como o SSG (Static Site Genaration).
+
+## ⚡️ Iniciando o Projeto
+
+### Clonando Projeto
+```bash
+git clone https://github.com/RennanD/podcastr.git
+```
+
+### Requisitos
+
+* [Node](https://nodejs.org/en/)
+* [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable) (Opicional)
+
+### Instalando Dependências  
+* Utilizando NPM 
+```bash
+npm install
+```
+
+* Utilizando Yarn 
+```bash
+yarn
+```
+
+### Iniciando Projeto  
+* Utilizando NPM 
+```bash
+npm run dev
+```
+
+* Utilizando Yarn 
+```bash
+yarn dev
+```
+
+## 🚀 Tecnologias
+
+- ReactJs com [NextJs](https://nextjs.org/)
+- [Styled Components](https://styled-components.com/)
+
+<!-- ## 🚧 Projeto
+
+Live Preview: https://discord-ui-clone-theta.vercel.app/ -->
+
+## :memo: Licença
+
+Esse projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+---
+
+Feito com ♥ by rennand
