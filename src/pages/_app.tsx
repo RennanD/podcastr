@@ -1,6 +1,8 @@
 import { Header } from '@components/Header';
 import { Player } from '@components/Player';
+
 import { PlayerProvider } from '@hooks/player';
+
 import { AppWrapper } from '@styles/app.styles';
 
 import Global from '@styles/global';

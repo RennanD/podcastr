@@ -1,4 +1,5 @@
 import { GetStaticProps } from 'next';
+import Head from 'next/head';
 import Image from 'next/image';
 
 import {
@@ -8,25 +9,28 @@ import {
   LatestEpisodes,
 } from '@styles/pages/home';
 
-import { api } from '@services/api';
+import { Anchor } from '@components/Anchor';
+import { usePlayer } from '@hooks/player';
 
 import { convertDuration } from '@utils/convertDuration';
 import { formatDate } from '@utils/formatDate';
-import { Anchor } from '@components/Anchor';
-import Head from 'next/head';
-import { usePlayer } from '@hooks/player';
+
+import { ApolloClientContext, withApollo } from '@lib/withApollo';
+
+import {
+  getServerPageGetAllEpisode,
+  ssrGetAllEpisode,
+} from '@graphql/generated/page';
 
 type EpisodeProps = {
   id: string;
   title: string;
   members: string;
-  published_at: string;
+  published_at: Date;
   thumbnail: string;
-  description: string;
   publishedAtFormatted: string;
   file: {
     url: string;
-    type: string;
     duration: number;
     durationTimeString: string;
   };
@@ -37,7 +41,7 @@ type HomeProps = {
   latestEpisodes: EpisodeProps[];
 };
 
-export default function Home({ allEpisodes, latestEpisodes }: HomeProps) {
+function Home({ allEpisodes, latestEpisodes }: HomeProps) {
   const { playList } = usePlayer();
 
   const episodeList = [...latestEpisodes, ...allEpisodes];
@@ -143,33 +147,49 @@ export default function Home({ allEpisodes, latestEpisodes }: HomeProps) {
   );
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-  const response = await api.get<EpisodeProps[]>('/episodes', {
-    params: {
-      _limit: 12,
-      sort: '_published_at',
-      _order: 'desc',
-    },
-  });
+export const getStaticProps: GetStaticProps = async ctx => {
+  const query = () => {
+    return getServerPageGetAllEpisode(null, ctx as ApolloClientContext);
+  };
 
-  const episodes = response.data.map(episode => ({
-    ...episode,
-
-    publishedAtFormatted: formatDate(episode.published_at, 'd MMM yy'),
-    file: {
-      ...episode.file,
-      durationTimeString: convertDuration(episode.file.duration),
-    },
-  }));
-
-  const latestEpisodes = episodes.slice(0, 2);
-  const allEpisodes = episodes.slice(2, episodes.length);
+  const resp = await query();
 
   return {
-    props: {
-      latestEpisodes,
-      allEpisodes,
-    },
+    props: resp.props,
     revalidate: 60 * 60 * 8,
   };
 };
+
+export default withApollo(
+  ssrGetAllEpisode.withPage()(props => {
+    const latestEpisodes = props.data.latestEpisodes.map(episode => ({
+      id: episode.id,
+      members: episode.members,
+      title: episode.title,
+      thumbnail: episode.thumbnail,
+      published_at: episode.publishedAt as Date,
+      publishedAtFormatted: formatDate(episode.publishedAt, 'd MMM yy'),
+      file: {
+        url: episode.file.url,
+        duration: episode.file.duration,
+        durationTimeString: convertDuration(episode.file.duration),
+      },
+    }));
+
+    const allEpisodes = props.data.allEpisodes.map(episode => ({
+      id: episode.id,
+      members: episode.members,
+      title: episode.title,
+      thumbnail: episode.thumbnail,
+      published_at: episode.publishedAt as Date,
+      publishedAtFormatted: formatDate(episode.publishedAt, 'd MMM yy'),
+      file: {
+        url: episode.file.url,
+        duration: episode.file.duration,
+        durationTimeString: convertDuration(episode.file.duration),
+      },
+    }));
+
+    return <Home latestEpisodes={latestEpisodes} allEpisodes={allEpisodes} />;
+  }),
+);

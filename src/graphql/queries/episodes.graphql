@@ -1,0 +1,29 @@
+query GetAllEpisode {
+  latestEpisodes: episodes (orderBy: publishedAt_DESC, first: 2) {
+    id
+    title
+    slug
+    thumbnail
+    members
+    publishedAt
+
+    file {
+      duration
+      url
+    }
+  }
+
+  allEpisodes: episodes (orderBy: publishedAt_DESC, last: 8) {
+   id
+    title
+    slug
+    thumbnail
+    members
+    publishedAt
+
+    file {
+      duration
+      url
+    }
+  }
+}

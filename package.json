@@ -7,11 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "generate": "graphql-codegen --config codegen.yml",
     "server": "json-server server.json -w -d 750 -p 4000"
   },
   "dependencies": {
+    "@apollo/client": "^3.6.9",
     "axios": "^0.27.2",
     "date-fns": "^2.28.0",
+    "graphql": "15",
     "next": "12.2.0",
     "rc-slider": "^10.0.0",
     "react": "18.2.0",
@@ -19,6 +22,11 @@
     "styled-components": "^5.3.5"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^2.7.0",
+    "@graphql-codegen/import-types-preset": "^2.1.21",
+    "@graphql-codegen/typescript": "^2.6.0",
+    "@graphql-codegen/typescript-operations": "^2.4.3",
+    "@graphql-codegen/typescript-react-apollo": "^3.2.17",
     "@types/node": "^18.0.0",
     "@types/react": "^18.0.14",
     "@types/styled-components": "^5.1.25",
@@ -34,6 +42,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.29.4",
     "eslint-plugin-react-hooks": "^4.5.0",
+    "graphql-codegen-apollo-next-ssr": "^1.7.3",
     "json-server": "^0.17.0",
     "prettier": "^2.7.1",
     "typescript": "^4.7.4"
