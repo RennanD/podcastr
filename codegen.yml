@@ -1,6 +1,8 @@
+version: '3'
+
 overwrite: true
 
-schema: 'https://api-us-east-1.graphcms.com/v2/cl5b4hot504ni01rshkjyaqu1/master'
+schema: https://api-us-east-1.graphcms.com/v2/cl5b4hot504ni01rshkjyaqu1/master
 documents: './src/graphql/**/*.graphql'
 
 generates:

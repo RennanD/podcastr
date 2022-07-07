@@ -25,6 +25,7 @@ import {
 type EpisodeProps = {
   id: string;
   title: string;
+  slug: string;
   members: string;
   published_at: Date;
   thumbnail: string;
@@ -76,7 +77,7 @@ function Home({ allEpisodes, latestEpisodes }: HomeProps) {
                 />
 
                 <EpisodeDetails>
-                  <Anchor href={`/episodes/${episode.id}`}>
+                  <Anchor href={`/episodes/${episode.slug}`}>
                     {episode.title}
                   </Anchor>
                   <p>{episode.members}</p>
@@ -122,7 +123,7 @@ function Home({ allEpisodes, latestEpisodes }: HomeProps) {
                     />
                   </td>
                   <td>
-                    <Anchor href={`/episodes/${episode.id}`}>
+                    <Anchor href={`/episodes/${episode.slug}`}>
                       {episode.title}
                     </Anchor>
                   </td>
@@ -165,6 +166,7 @@ export default withApollo(
     const latestEpisodes = props.data.latestEpisodes.map(episode => ({
       id: episode.id,
       members: episode.members,
+      slug: episode.slug,
       title: episode.title,
       thumbnail: episode.thumbnail,
       published_at: episode.publishedAt as Date,
@@ -180,6 +182,7 @@ export default withApollo(
       id: episode.id,
       members: episode.members,
       title: episode.title,
+      slug: episode.slug,
       thumbnail: episode.thumbnail,
       published_at: episode.publishedAt as Date,
       publishedAtFormatted: formatDate(episode.publishedAt, 'd MMM yy'),

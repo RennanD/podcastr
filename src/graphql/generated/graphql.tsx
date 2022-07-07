@@ -4163,12 +4163,64 @@ export enum _SystemDateTimeFieldVariation {
   Localization = 'localization'
 }
 
+export type GetEpisodeDetailsQueryVariables = Exact<{
+  slug?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type GetEpisodeDetailsQuery = { __typename?: 'Query', episode?: { __typename?: 'Episode', id: string, title?: string | null, slug?: string | null, description?: string | null, thumbnail?: string | null, members?: string | null, publishedAt?: any | null, file?: { __typename?: 'File', duration?: number | null, url?: string | null } | null } | null };
+
 export type GetAllEpisodeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetAllEpisodeQuery = { __typename?: 'Query', latestEpisodes: Array<{ __typename?: 'Episode', id: string, title?: string | null, slug?: string | null, thumbnail?: string | null, members?: string | null, publishedAt?: any | null, file?: { __typename?: 'File', duration?: number | null, url?: string | null } | null }>, allEpisodes: Array<{ __typename?: 'Episode', id: string, title?: string | null, slug?: string | null, thumbnail?: string | null, members?: string | null, publishedAt?: any | null, file?: { __typename?: 'File', duration?: number | null, url?: string | null } | null }> };
 
 
+export const GetEpisodeDetailsDocument = gql`
+    query GetEpisodeDetails($slug: String) {
+  episode(where: {slug: $slug}) {
+    id
+    title
+    slug
+    description
+    thumbnail
+    members
+    publishedAt
+    file {
+      duration
+      url
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetEpisodeDetailsQuery__
+ *
+ * To run a query within a React component, call `useGetEpisodeDetailsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetEpisodeDetailsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetEpisodeDetailsQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useGetEpisodeDetailsQuery(baseOptions?: Apollo.QueryHookOptions<GetEpisodeDetailsQuery, GetEpisodeDetailsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetEpisodeDetailsQuery, GetEpisodeDetailsQueryVariables>(GetEpisodeDetailsDocument, options);
+      }
+export function useGetEpisodeDetailsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetEpisodeDetailsQuery, GetEpisodeDetailsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetEpisodeDetailsQuery, GetEpisodeDetailsQueryVariables>(GetEpisodeDetailsDocument, options);
+        }
+export type GetEpisodeDetailsQueryHookResult = ReturnType<typeof useGetEpisodeDetailsQuery>;
+export type GetEpisodeDetailsLazyQueryHookResult = ReturnType<typeof useGetEpisodeDetailsLazyQuery>;
+export type GetEpisodeDetailsQueryResult = Apollo.QueryResult<GetEpisodeDetailsQuery, GetEpisodeDetailsQueryVariables>;
 export const GetAllEpisodeDocument = gql`
     query GetAllEpisode {
   latestEpisodes: episodes(orderBy: publishedAt_DESC, first: 2) {
