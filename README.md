@@ -21,6 +21,7 @@
 
 Esta é uma aplicação que funciona como um player de PodCasts.
 Nela foram aplicados alguns conceitos bem fortes do NextJs como o SSG (Static Site Genaration).
+E como forma de evoluir o projeto, adicionei o Graphql na aplicação consumindo o [GraphCMS](https://graphcms.com/) como api.
 
 ## ⚡️ Iniciando o Projeto
 
@@ -58,12 +59,15 @@ yarn dev
 
 ## 🚀 Tecnologias
 
-- ReactJs com [NextJs](https://nextjs.org/)
+- [ReactJs](https://pt-br.reactjs.org/)
+- [NextJs](https://nextjs.org/)
+- [Graphql](https://graphql.org/)
+- [Apollo Client](https://www.apollographql.com/)
 - [Styled Components](https://styled-components.com/)
 
-<!-- ## 🚧 Projeto
+## 🚧 Projeto
 
-Live Preview: https://discord-ui-clone-theta.vercel.app/ -->
+Live Preview: https://podcastr-blush-eight.vercel.app/
 
 ## :memo: Licença
 
